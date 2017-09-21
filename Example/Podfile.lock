@@ -1,0 +1,29 @@
+PODS:
+  - Nimble (5.1.1)
+  - Quick (1.0.0)
+  - RxCocoa (3.5.0):
+    - RxSwift (~> 3.4)
+  - RxCoreBluetooth (0.1.0)
+  - RxSwift (3.5.0)
+
+DEPENDENCIES:
+  - Nimble (~> 5.1.1)
+  - Quick (~> 1.0.0)
+  - RxCocoa
+  - RxCoreBluetooth (from `../`)
+  - RxSwift
+
+EXTERNAL SOURCES:
+  RxCoreBluetooth:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
+  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
+  RxCocoa: a0a09f45d0e5b48ecb6a4a7b4b4c89c88d3f633f
+  RxCoreBluetooth: 688ad09d0e890ac7ba580fe24aa2b8daef3866b1
+  RxSwift: 18ee9d78b45edb3b0b7e79916b47a116e6dbc842
+
+PODFILE CHECKSUM: 4854e3cac66421ec5e52c1a3915b8841ed430392
+
+COCOAPODS: 1.2.0
