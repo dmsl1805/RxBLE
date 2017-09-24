@@ -81,32 +81,32 @@ class RxCBCentralManagerDelegateProxy : DelegateProxy
     //MARK: CBCentralManagerDelegate
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        _forwardToDelegate?.centralManagerDidUpdateState(central)
+        _forwardToDelegate?.centralManagerDidUpdateState?(central)
         didUpdateStateSubject.onNext(central)
     }
     
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
-        _forwardToDelegate?.centralManager(central, willRestoreState: dict)
+        _forwardToDelegate?.centralManager?(central, willRestoreState: dict)
         willRestoreStateSubject.onNext(central: central, dict: dict)
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        _forwardToDelegate?.centralManager(central, didDiscover: peripheral, advertisementData: advertisementData, rssi: RSSI)
+        _forwardToDelegate?.centralManager?(central, didDiscover: peripheral, advertisementData: advertisementData, rssi: RSSI)
         didDiscoverSubject.onNext((central: central, peripheral: peripheral, advertisementData: advertisementData, rssi: RSSI))
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        _forwardToDelegate?.centralManager(central, didConnect: peripheral)
+        _forwardToDelegate?.centralManager?(central, didConnect: peripheral)
         didConnectSubject.onNext((central: central, peripheral: peripheral))
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        _forwardToDelegate?.centralManager(central, didFailToConnect: peripheral, error: error)
+        _forwardToDelegate?.centralManager?(central, didFailToConnect: peripheral, error: error)
         didFailToConnectSubject.onNext((central: central, peripheral: peripheral, error: error))
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        _forwardToDelegate?.centralManager(central, didDisconnectPeripheral: peripheral, error: error)
+        _forwardToDelegate?.centralManager?(central, didDisconnectPeripheral: peripheral, error: error)
         didDisconnectPeripheralSubject.onNext((central: central, peripheral: peripheral, error: error))
     }
     

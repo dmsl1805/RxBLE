@@ -38,10 +38,6 @@ extension Reactive where Base: CBPeripheral {
         return proxy.didModifyServicesSubject.asObservable()
     }
     
-    public var didUpdateRSSI: Observable<(peripheral: CBPeripheral, error: Error?)> {
-        return proxy.didUpdateRSSISubject.asObservable()
-    }
-    
     public var didReadRSSI: Observable<(peripheral: CBPeripheral, error: Error?, RSSI: NSNumber)> {
         return proxy.didReadRSSISubject.asObservable()
     }
@@ -87,7 +83,6 @@ class RxCBPeripheralDelegateProxy: DelegateProxy, DelegateProxyType, CBPeriphera
     
     internal lazy var didUpdateNameSubject = PublishSubject<CBPeripheral>()
     internal lazy var didModifyServicesSubject = PublishSubject<(peripheral: CBPeripheral, invalidatedServices: [CBService])>()
-    internal lazy var didUpdateRSSISubject = PublishSubject<(peripheral: CBPeripheral, error: Error?)>()
     internal lazy var didReadRSSISubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, RSSI: NSNumber)>()
     internal lazy var didDiscoverServicesSubject = PublishSubject<(peripheral: CBPeripheral, error: Error?)>()
     internal lazy var didDiscoverIncludedServicesSubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, service: CBService)>()
@@ -102,7 +97,6 @@ class RxCBPeripheralDelegateProxy: DelegateProxy, DelegateProxyType, CBPeriphera
     deinit {
         didUpdateNameSubject.on(.completed)
         didModifyServicesSubject.on(.completed)
-        didUpdateRSSISubject.on(.completed)
         didReadRSSISubject.on(.completed)
         didDiscoverServicesSubject.on(.completed)
         didDiscoverIncludedServicesSubject.on(.completed)
@@ -134,67 +128,62 @@ class RxCBPeripheralDelegateProxy: DelegateProxy, DelegateProxyType, CBPeriphera
     //MARK: CBPeripheralDelegate
     
     func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
-        _forwardToDelegate?.peripheralDidUpdateName(peripheral)
+        _forwardToDelegate?.peripheralDidUpdateName?(peripheral)
         didUpdateNameSubject.onNext(peripheral)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
-        _forwardToDelegate?.peripheral(peripheral, didModifyServices: invalidatedServices)
+        _forwardToDelegate?.peripheral?(peripheral, didModifyServices: invalidatedServices)
         didModifyServicesSubject.onNext((peripheral: peripheral, invalidatedServices: invalidatedServices))
     }
     
-    func peripheralDidUpdateRSSI(_ peripheral: CBPeripheral, error: Error?) {
-        _forwardToDelegate?.peripheralDidUpdateRSSI(peripheral, error: error)
-        didUpdateRSSISubject.onNext((peripheral: peripheral, error: error))
-    }
-    
     func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didReadRSSI: RSSI, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didReadRSSI: RSSI, error: error)
         didReadRSSISubject.onNext((peripheral: peripheral, error: error, RSSI: RSSI))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didDiscoverServices: error)
+        _forwardToDelegate?.peripheral?(peripheral, didDiscoverServices: error)
         didDiscoverServicesSubject.onNext((peripheral: peripheral, error: error))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverIncludedServicesFor service: CBService, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didDiscoverIncludedServicesFor: service, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didDiscoverIncludedServicesFor: service, error: error)
         didDiscoverIncludedServicesSubject.onNext((peripheral: peripheral, error: error, service: service))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didDiscoverCharacteristicsFor: service, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didDiscoverCharacteristicsFor: service, error: error)
         didDiscoverCharacteristicsSubject.onNext((peripheral: peripheral, error: error, service: service))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didUpdateValueFor: characteristic, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didUpdateValueFor: characteristic, error: error)
         didUpdateValueForCharacteristicSubject.onNext((peripheral: peripheral, error: error, characteristic: characteristic))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didWriteValueFor: characteristic, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didWriteValueFor: characteristic, error: error)
         didWriteValueForCharacteristicSubject.onNext((peripheral: peripheral, error: error, characteristic: characteristic))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didUpdateNotificationStateFor: characteristic, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didUpdateNotificationStateFor: characteristic, error: error)
         didUpdateNotificationStateSubject.onNext((peripheral: peripheral, error: error, characteristic: characteristic))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didDiscoverDescriptorsFor: characteristic, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didDiscoverDescriptorsFor: characteristic, error: error)
         didDiscoverDescriptorsSubject.onNext((peripheral: peripheral, error: error, characteristic: characteristic))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didUpdateValueFor: descriptor, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didUpdateValueFor: descriptor, error: error)
         didUpdateValueForDescriptorSubject.onNext((peripheral: peripheral, error: error, descriptor: descriptor))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
-        _forwardToDelegate?.peripheral(peripheral, didWriteValueFor: descriptor, error: error)
+        _forwardToDelegate?.peripheral?(peripheral, didWriteValueFor: descriptor, error: error)
         didWriteValueForDescriptorSubject.onNext((peripheral: peripheral, error: error, descriptor: descriptor))
     }
 }

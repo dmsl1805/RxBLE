@@ -103,47 +103,47 @@ class RxCBPeripheralManagerDelegateProxy: DelegateProxy, DelegateProxyType, CBPe
     //MARK: CBPeripheralManagerDelegate
     
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
-        _forwardToDelegate?.peripheralManagerDidUpdateState(peripheral)
+        _forwardToDelegate?.peripheralManagerDidUpdateState?(peripheral)
         didUpdateStateSubject.onNext(peripheral)
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, willRestoreState dict: [String : Any]) {
-        _forwardToDelegate?.peripheralManager(peripheral, willRestoreState: dict)
+        _forwardToDelegate?.peripheralManager?(peripheral, willRestoreState: dict)
         willRestoreStateSubject.onNext((peripheral: peripheral, dict: dict))
     }
     
     func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
-        _forwardToDelegate?.peripheralManagerDidStartAdvertising(peripheral, error: error)
+        _forwardToDelegate?.peripheralManagerDidStartAdvertising?(peripheral, error: error)
         didStartAdvertisingSubject.onNext((peripheral: peripheral, error: error))
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: Error?) {
-        _forwardToDelegate?.peripheralManager(peripheral, didAdd: service, error: error)
+        _forwardToDelegate?.peripheralManager?(peripheral, didAdd: service, error: error)
         didAddServiceSubject.onNext((peripheral: peripheral, service: service, error: error))
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
-        _forwardToDelegate?.peripheralManager(peripheral, central: central, didSubscribeTo: characteristic)
+        _forwardToDelegate?.peripheralManager?(peripheral, central: central, didSubscribeTo: characteristic)
         didSubscribeToCharacteristicSubject.onNext((peripheral: peripheral, central: central, characteristic: characteristic))
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
-        _forwardToDelegate?.peripheralManager(peripheral, central: central, didUnsubscribeFrom: characteristic)
+        _forwardToDelegate?.peripheralManager?(peripheral, central: central, didUnsubscribeFrom: characteristic)
         didUnsubscribeFromCharacteristicSubject.onNext((peripheral: peripheral, central: central, characteristic: characteristic))
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
-        _forwardToDelegate?.peripheralManager(peripheral, didReceiveRead: request)
+        _forwardToDelegate?.peripheralManager?(peripheral, didReceiveRead: request)
         didReceiveReadRequestSubject.onNext((peripheral: peripheral, request: request))
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
-        _forwardToDelegate?.peripheralManager(peripheral, didReceiveWrite: requests)
+        _forwardToDelegate?.peripheralManager?(peripheral, didReceiveWrite: requests)
         didReceiveWriteRequestsSubject.onNext((peripheral: peripheral, requests: requests))
     }
     
     func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
-        _forwardToDelegate?.peripheralManagerIsReady(toUpdateSubscribers: peripheral)
+        _forwardToDelegate?.peripheralManagerIsReady?(toUpdateSubscribers: peripheral)
         isReadyToUpdateSubscribersSubject.onNext(peripheral)
     }
 }
