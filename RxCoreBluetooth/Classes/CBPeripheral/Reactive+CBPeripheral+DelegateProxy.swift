@@ -30,55 +30,55 @@ extension Reactive where Base: CBPeripheral {
         return delegate as! RxCBPeripheralDelegateProxy
     }
     
-    var didUpdateName: Observable<CBPeripheral> {
+    public var didUpdateName: Observable<CBPeripheral> {
         return proxy.didUpdateNameSubject.asObservable()
     }
     
-    var didModifyServices: Observable<(peripheral: CBPeripheral, invalidatedServices: [CBService])> {
+    public var didModifyServices: Observable<(peripheral: CBPeripheral, invalidatedServices: [CBService])> {
         return proxy.didModifyServicesSubject.asObservable()
     }
     
-    var didUpdateRSSI: Observable<(peripheral: CBPeripheral, error: Error?)> {
+    public var didUpdateRSSI: Observable<(peripheral: CBPeripheral, error: Error?)> {
         return proxy.didUpdateRSSISubject.asObservable()
     }
     
-    var didReadRSSI: Observable<(peripheral: CBPeripheral, error: Error?, RSSI: NSNumber)> {
+    public var didReadRSSI: Observable<(peripheral: CBPeripheral, error: Error?, RSSI: NSNumber)> {
         return proxy.didReadRSSISubject.asObservable()
     }
     
-    var didDiscoverServices: Observable<(peripheral: CBPeripheral, error: Error?)> {
+    public var didDiscoverServices: Observable<(peripheral: CBPeripheral, error: Error?)> {
         return proxy.didDiscoverServicesSubject.asObservable()
     }
     
-    var didDiscoverIncludedServices: Observable<(peripheral: CBPeripheral, error: Error?, service: CBService)> {
+    public var didDiscoverIncludedServices: Observable<(peripheral: CBPeripheral, error: Error?, service: CBService)> {
         return proxy.didDiscoverIncludedServicesSubject.asObservable()
     }
     
-    var didDiscoverCharacteristics: Observable<(peripheral: CBPeripheral, error: Error?, service: CBService)> {
+    public var didDiscoverCharacteristics: Observable<(peripheral: CBPeripheral, error: Error?, service: CBService)> {
         return proxy.didDiscoverCharacteristicsSubject.asObservable()
     }
     
-    var didUpdateValueForCharacteristic: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
+    public var didUpdateValueForCharacteristic: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
         return proxy.didUpdateValueForCharacteristicSubject.asObservable()
     }
     
-    var didWriteValueForCharacteristic: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
+    public var didWriteValueForCharacteristic: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
         return proxy.didWriteValueForCharacteristicSubject.asObservable()
     }
     
-    var didUpdateNotificationState: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
+    public var didUpdateNotificationState: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
         return proxy.didUpdateNotificationStateSubject.asObservable()
     }
     
-    var didDiscoverDescriptors: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
+    public var didDiscoverDescriptors: Observable<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)> {
         return proxy.didDiscoverDescriptorsSubject.asObservable()
     }
     
-    var didUpdateValueForDescriptor: Observable<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)> {
+    public var didUpdateValueForDescriptor: Observable<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)> {
         return proxy.didUpdateValueForDescriptorSubject.asObservable()
     }
     
-    var didWriteValueForDescriptor: Observable<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)> {
+    public var didWriteValueForDescriptor: Observable<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)> {
         return proxy.didWriteValueForDescriptorSubject.asObservable()
     }
 }

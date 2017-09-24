@@ -13,11 +13,31 @@ import CoreBluetooth
     import RxCocoa
 #endif
 
+public extension CBPeripheral {
+    func service(uuidString: String) -> CBService? {
+        return services?.filter({ $0.uuid.uuidString == uuidString }).first
+    }
+    
+    func service(uuid: CBUUID) -> CBService? {
+        return services?.filter({ $0.uuid == uuid }).first
+    }
+}
+
+public extension CBService {
+    func characteristic(uuidString: String) -> CBCharacteristic? {
+        return characteristics?.filter({ $0.uuid.uuidString == uuidString }).last
+    }
+    
+    func characteristic(uuid: CBUUID) -> CBCharacteristic? {
+        return characteristics?.filter({ $0.uuid == uuid }).last
+    }
+}
+
 extension Reactive where Base: CBPeripheral {
     
     // MARK: RSSI
     
-    func readRSSI() -> Observable<(peripheral: CBPeripheral, RSSI: NSNumber)> {
+    public func readRSSI() -> Observable<(peripheral: CBPeripheral, RSSI: NSNumber)> {
         return Observable<(peripheral: CBPeripheral, RSSI: NSNumber)>.create { observer in
             let didReadRSSI = self.didReadRSSI.subscribe(onNext: { (peripheral, error, rssi) in
                 guard let error = error else {
@@ -37,13 +57,30 @@ extension Reactive where Base: CBPeripheral {
     
     //MARK: Services
     
-    func discoverServices(_ services: [CBUUID]?) -> Observable<CBPeripheral> {
+    public func discoverService(_ service: CBUUID) -> Observable<(peripheral: CBPeripheral, service: CBService)> {
+        if let knownService = base.service(uuid: service) {
+            return Observable.just((peripheral: base, service: knownService))
+        }
+        
+        return discoverServices([service])
+            .map { peripheral -> (peripheral: CBPeripheral, service: CBService) in
+                guard let service = peripheral.service(uuid: service) else {
+                    throw RxCoreBluetoothError.serviceNotFound
+                }
+                return (peripheral: peripheral, service: service) }
+    }
+    
+    public func discoverServices(_ services: [CBUUID]?) -> Observable<CBPeripheral> {
         let knownServicesUUIDs = base.services?.map { $0.uuid }
         
-        let allServicesAreAlreadyKnown = services?
-            .flatMap { knownServicesUUIDs?.contains($0) }
-            .reduce(true) { $0 && $1 }
-            ?? false
+        var allServicesAreAlreadyKnown = false
+        
+        if let knownUUIDs = knownServicesUUIDs, knownUUIDs.count > 0 {
+            allServicesAreAlreadyKnown = services?
+                .flatMap { knownServicesUUIDs?.contains($0) }
+                .reduce(true) { $0 && $1 }
+                ?? false
+        }
         
         guard !allServicesAreAlreadyKnown else {
             return Observable.just(self.base)
@@ -66,16 +103,20 @@ extension Reactive where Base: CBPeripheral {
         }
     }
     
-    func discoverIncludedServices(_ services: [CBUUID]?, for service: CBService ) -> Observable<(peripheral: CBPeripheral, service: CBService)> {
+    public func discoverIncludedServices(_ services: [CBUUID]?, for service: CBService ) -> Observable<(peripheral: CBPeripheral, service: CBService)> {
         let knownServicesUUIDs = service.includedServices?.map { $0.uuid }
         
-        let allServicesAreAlreadyKnown = services?
-            .flatMap { knownServicesUUIDs?.contains($0) }
-            .reduce(true) { $0 && $1 }
-            ?? false
+        var allServicesAreAlreadyKnown = false
+        
+        if let knownUUIDs = knownServicesUUIDs, knownUUIDs.count > 0 {
+            allServicesAreAlreadyKnown = services?
+                .flatMap { knownServicesUUIDs?.contains($0) }
+                .reduce(true) { $0 && $1 }
+                ?? false
+        }
         
         guard !allServicesAreAlreadyKnown else {
-            return Observable.just((peripheral: self.base, service: service))
+            return Observable.just((peripheral: base, service: service))
         }
         
         return Observable<(peripheral: CBPeripheral, service: CBService)>.create { observer in
@@ -99,15 +140,32 @@ extension Reactive where Base: CBPeripheral {
     
     //MARK: Characteristics
     
-    func discoverCharacteristics(_ characteristics: [CBUUID]?, for service: CBService) -> Observable<(peripheral: CBPeripheral, service: CBService)> {
-        let knownCharacteristicsUUIDs = service.characteristics?.map { $0.uuid }
+    public func discoverCharacteristic(_ characteristic: CBUUID, for service: CBService) -> Observable<(peripheral: CBPeripheral, service: CBService, characteristic: CBCharacteristic)> {
+        if let characteristic = service.characteristic(uuid: characteristic) {
+            return Observable.just((peripheral: base, service: service, characteristic: characteristic))
+        }
         
-        let allServicesAreAlreadyKnown = characteristics?
-            .flatMap { knownCharacteristicsUUIDs?.contains($0) }
-            .reduce(true) { $0 && $1 }
-            ?? false
+        return discoverCharacteristics([characteristic], for: service)
+            .map { (peripheral: CBPeripheral, service: CBService) -> (peripheral: CBPeripheral, service: CBService, characteristic: CBCharacteristic) in
+                guard let characteristic = service.characteristic(uuid: characteristic) else {
+                    throw RxCoreBluetoothError.characteristicNotFound
+                }
+                return (peripheral: peripheral, service: service, characteristic: characteristic) }
+    }
+    
+    public func discoverCharacteristics(_ characteristics: [CBUUID]?, for service: CBService) -> Observable<(peripheral: CBPeripheral, service: CBService)> {
+        let knownCharacteristicUUIDs = service.characteristics?.map { $0.uuid }
         
-        guard !allServicesAreAlreadyKnown else {
+        var allCharacteristicsAreAlreadyKnown = false
+        
+        if let knownUUIDs = knownCharacteristicUUIDs, knownUUIDs.count > 0 {
+            allCharacteristicsAreAlreadyKnown = characteristics?
+                .flatMap { knownCharacteristicUUIDs?.contains($0) }
+                .reduce(true) { $0 && $1 }
+                ?? false
+        }
+        
+        guard !allCharacteristicsAreAlreadyKnown else {
             return Observable.just((peripheral: self.base, service: service))
         }
         
@@ -130,7 +188,7 @@ extension Reactive where Base: CBPeripheral {
         }
     }
     
-    func readValueForCharacteristic(_ characteristic: CBCharacteristic) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)> {
+    public func readValue(for characteristic: CBCharacteristic) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)> {
         
         return Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)>.create { observer in
             let didUpdateValue = self.didUpdateValueForCharacteristic
@@ -151,7 +209,7 @@ extension Reactive where Base: CBPeripheral {
         }
     }
     
-    func writeValue(data: Data, for characteristic: CBCharacteristic, type: CBCharacteristicWriteType) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic, value: Data)> {
+    public func writeValue(data: Data, for characteristic: CBCharacteristic, type: CBCharacteristicWriteType) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic, value: Data)> {
                 
         guard type == .withResponse else {
             self.base.writeValue(data, for: characteristic, type: type)
@@ -176,7 +234,7 @@ extension Reactive where Base: CBPeripheral {
         }
     }
     
-    func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristic) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)> {
+    public func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristic) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)> {
         
         guard enabled else {
             return Observable.just((peripheral: self.base, characteristic: characteristic))
@@ -203,7 +261,7 @@ extension Reactive where Base: CBPeripheral {
     
     // MARK: Descriptors
     
-    func discoverDescriptors(for characteristic: CBCharacteristic) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)> {
+    public func discoverDescriptors(for characteristic: CBCharacteristic) -> Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)> {
         return Observable<(peripheral: CBPeripheral, characteristic: CBCharacteristic)>.create { observer in
             let didDiscoverDescriptors = self.didDiscoverDescriptors
                 .filter { $0.characteristic.uuid == characteristic.uuid }
@@ -223,7 +281,7 @@ extension Reactive where Base: CBPeripheral {
         }
     }
     
-    func readValue(for descriptor: CBDescriptor) -> Observable<(peripheral: CBPeripheral, descriptor: CBDescriptor)> {
+    public func readValue(for descriptor: CBDescriptor) -> Observable<(peripheral: CBPeripheral, descriptor: CBDescriptor)> {
         return Observable<(peripheral: CBPeripheral, descriptor: CBDescriptor)>.create { observer in
             let didUpdateValue = self.didUpdateValueForDescriptor
                 .filter { $0.descriptor.uuid == descriptor.uuid }
@@ -243,7 +301,7 @@ extension Reactive where Base: CBPeripheral {
         }
     }
     
-    func writeValue(_ data: Data, for descriptor: CBDescriptor) -> Observable<(peripheral: CBPeripheral, descriptor: CBDescriptor, value: Data)> {
+    public func writeValue(_ data: Data, for descriptor: CBDescriptor) -> Observable<(peripheral: CBPeripheral, descriptor: CBDescriptor, value: Data)> {
         return Observable<(peripheral: CBPeripheral, descriptor: CBDescriptor, value: Data)>.create { observer in
             let didWriteValue = self.didWriteValueForDescriptor
                 .filter { $0.descriptor.uuid == descriptor.uuid }
