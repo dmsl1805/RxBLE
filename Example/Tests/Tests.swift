@@ -2,7 +2,7 @@
 
 import Quick
 import Nimble
-import RxCoreBluetooth
+import RxBLE
 
 class TableOfContentsSpec: QuickSpec {
     override func spec() {

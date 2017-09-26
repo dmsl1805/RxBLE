@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "RxCoreBluetooth_Example.app"
-               BlueprintName = "RxCoreBluetooth_Example"
-               ReferencedContainer = "container:RxCoreBluetooth.xcodeproj">
+               BuildableName = "RxBLE_Example.app"
+               BlueprintName = "RxBLE_Example"
+               ReferencedContainer = "container:RxBLE.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "RxCoreBluetooth_Tests.xctest"
-               BlueprintName = "RxCoreBluetooth_Tests"
-               ReferencedContainer = "container:RxCoreBluetooth.xcodeproj">
+               BuildableName = "RxBLE_Tests.xctest"
+               BlueprintName = "RxBLE_Tests"
+               ReferencedContainer = "container:RxBLE.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "RxCoreBluetooth_Tests.xctest"
-               BlueprintName = "RxCoreBluetooth_Tests"
-               ReferencedContainer = "container:RxCoreBluetooth.xcodeproj">
+               BuildableName = "RxBLE_Tests.xctest"
+               BlueprintName = "RxBLE_Tests"
+               ReferencedContainer = "container:RxBLE.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "RxCoreBluetooth_Example.app"
-            BlueprintName = "RxCoreBluetooth_Example"
-            ReferencedContainer = "container:RxCoreBluetooth.xcodeproj">
+            BuildableName = "RxBLE_Example.app"
+            BlueprintName = "RxBLE_Example"
+            ReferencedContainer = "container:RxBLE.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "RxCoreBluetooth_Example.app"
-            BlueprintName = "RxCoreBluetooth_Example"
-            ReferencedContainer = "container:RxCoreBluetooth.xcodeproj">
+            BuildableName = "RxBLE_Example.app"
+            BlueprintName = "RxBLE_Example"
+            ReferencedContainer = "container:RxBLE.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -99,9 +99,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "RxCoreBluetooth_Example.app"
-            BlueprintName = "RxCoreBluetooth_Example"
-            ReferencedContainer = "container:RxCoreBluetooth.xcodeproj">
+            BuildableName = "RxBLE_Example.app"
+            BlueprintName = "RxBLE_Example"
+            ReferencedContainer = "container:RxBLE.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
