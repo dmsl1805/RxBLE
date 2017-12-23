@@ -15,6 +15,16 @@ import CoreBluetooth
 
 extension Reactive where Base: CBCentralManager {
     
+    public var state: Observable<CBManagerState> {
+        return Observable.create { observer in
+            observer.onNext(self.base.state)
+            let didUpdateState = self.base.rx.didUpdateState.subscribe(onNext: { central in
+                observer.onNext(central.state)
+            })
+            return Disposables.create([didUpdateState])
+        }
+    }
+    
     public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String : Any]? = nil) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber)> {
         
         base.scanForPeripherals(withServices: serviceUUIDs, options: options)

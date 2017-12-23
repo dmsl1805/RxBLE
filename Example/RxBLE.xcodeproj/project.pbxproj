@@ -15,6 +15,8 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		E98BD9D17EED16891F142F25 /* Pods_RxBLE_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3042CF16735953FB39AA85C3 /* Pods_RxBLE_Tests.framework */; };
+		FC0DB1B41FEE44E500830213 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0DB1B61FEE44E500830213 /* RxCocoa.framework */; };
+		FC0DB1B51FEE44E500830213 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0DB1B71FEE44E500830213 /* RxSwift.framework */; };
 		FC7D3F831F78DDEA00176C46 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FC7D3F821F78DDEA00176C46 /* LICENSE */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,8 @@
 		9708E4BA606DB6B17AAB098D /* Pods-RxBLE_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBLE_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxBLE_Example/Pods-RxBLE_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		98136AF7901D6D42FD6FABD0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D29417804D89B054BFD0D13D /* RxBLE.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RxBLE.podspec; path = ../RxBLE.podspec; sourceTree = "<group>"; };
+		FC0DB1B61FEE44E500830213 /* RxCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC0DB1B71FEE44E500830213 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC7D3F821F78DDEA00176C46 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC0DB1B41FEE44E500830213 /* RxCocoa.framework in Frameworks */,
+				FC0DB1B51FEE44E500830213 /* RxSwift.framework in Frameworks */,
 				0EC4E4320DCBB7597DA9447A /* Pods_RxBLE_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +149,8 @@
 		AB6BDA20FACA58BFE7998EAD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FC0DB1B61FEE44E500830213 /* RxCocoa.framework */,
+				FC0DB1B71FEE44E500830213 /* RxSwift.framework */,
 				16ACEC9A0ED60C8C28A7EAB9 /* Pods_RxBLE_Example.framework */,
 				3042CF16735953FB39AA85C3 /* Pods_RxBLE_Tests.framework */,
 			);
@@ -445,7 +453,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -485,7 +493,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
