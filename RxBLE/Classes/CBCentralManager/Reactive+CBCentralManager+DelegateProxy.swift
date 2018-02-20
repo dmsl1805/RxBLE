@@ -16,13 +16,9 @@ import CoreBluetooth
 extension Reactive where Base: CBCentralManager {
     
     
-    public var delegate: DelegateProxy {
-        return RxCBCentralManagerDelegateProxy.proxyForObject(base)
-    }
+    public var delegate: DelegateProxy<CBCentralManager, CBCentralManagerDelegate> { return RxCBCentralManagerDelegateProxy.proxy(for: base) }
     
-    var proxy: RxCBCentralManagerDelegateProxy {
-        return delegate as! RxCBCentralManagerDelegateProxy
-    }
+    var proxy: RxCBCentralManagerDelegateProxy { return RxCBCentralManagerDelegateProxy.proxy(for: base) }
     
     //MARK: Reactive delegate
     
@@ -51,31 +47,35 @@ extension Reactive where Base: CBCentralManager {
     }
 }
 
-class RxCBCentralManagerDelegateProxy : DelegateProxy
-    , CBCentralManagerDelegate
-    , DelegateProxyType {
+extension CBCentralManager: HasDelegate {
+    public typealias Delegate = CBCentralManagerDelegate
+}
+
+class RxCBCentralManagerDelegateProxy : DelegateProxy<CBCentralManager, CBCentralManagerDelegate>, CBCentralManagerDelegate, DelegateProxyType {
     
-    internal lazy var didUpdateStateSubject = PublishSubject<CBCentralManager>()
-    internal lazy var willRestoreStateSubject = PublishSubject<(central: CBCentralManager, dict: [String : Any])>()
-    internal lazy var didDiscoverSubject = PublishSubject<(central: CBCentralManager,peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber)>()
-    internal lazy var didConnectSubject = PublishSubject<(central: CBCentralManager, peripheral: CBPeripheral)>()
-    internal lazy var didFailToConnectSubject = PublishSubject<(central: CBCentralManager, peripheral: CBPeripheral, error: Error?)>()
-    internal lazy var didDisconnectPeripheralSubject = PublishSubject<(central: CBCentralManager, peripheral: CBPeripheral, error: Error?)>()
-
-    //MARK: DelegateProxyType
-
-    class func currentDelegateFor(_ object: AnyObject) -> AnyObject? {
-        let centralManager: CBCentralManager = object as! CBCentralManager
-        return centralManager.delegate
+    lazy var didUpdateStateSubject = PublishSubject<CBCentralManager>()
+    lazy var willRestoreStateSubject = PublishSubject<(central: CBCentralManager, dict: [String : Any])>()
+    lazy var didDiscoverSubject = PublishSubject<(central: CBCentralManager,peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber)>()
+    lazy var didConnectSubject = PublishSubject<(central: CBCentralManager, peripheral: CBPeripheral)>()
+    lazy var didFailToConnectSubject = PublishSubject<(central: CBCentralManager, peripheral: CBPeripheral, error: Error?)>()
+    lazy var didDisconnectPeripheralSubject = PublishSubject<(central: CBCentralManager, peripheral: CBPeripheral, error: Error?)>()
+    
+    init(_ centralManager: CBCentralManager) {
+        super.init(parentObject: centralManager, delegateProxy: RxCBCentralManagerDelegateProxy.self)
     }
     
-    class func setCurrentDelegate(_ delegate: AnyObject?, toObject object: AnyObject) {
-        let centralManager: CBCentralManager = object as! CBCentralManager
-        if let delegate = delegate {
-            centralManager.delegate = (delegate as! CBCentralManagerDelegate)
-        } else {
-            centralManager.delegate = nil
-        }
+    deinit {
+        didUpdateStateSubject.on(.completed)
+        didDiscoverSubject.on(.completed)
+        didConnectSubject.on(.completed)
+        didFailToConnectSubject.on(.completed)
+        didDisconnectPeripheralSubject.on(.completed)
+    }
+    
+    //MARK: DelegateProxyType
+
+    static func registerKnownImplementations() {
+        register { RxCBCentralManagerDelegateProxy($0) }
     }
     
     //MARK: CBCentralManagerDelegate
@@ -87,7 +87,7 @@ class RxCBCentralManagerDelegateProxy : DelegateProxy
     
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
         _forwardToDelegate?.centralManager?(central, willRestoreState: dict)
-        willRestoreStateSubject.onNext(central: central, dict: dict)
+        willRestoreStateSubject.onNext((central: central, dict: dict))
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -108,14 +108,6 @@ class RxCBCentralManagerDelegateProxy : DelegateProxy
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         _forwardToDelegate?.centralManager?(central, didDisconnectPeripheral: peripheral, error: error)
         didDisconnectPeripheralSubject.onNext((central: central, peripheral: peripheral, error: error))
-    }
-    
-    deinit {
-        didUpdateStateSubject.on(.completed)
-        didDiscoverSubject.on(.completed)
-        didConnectSubject.on(.completed)
-        didFailToConnectSubject.on(.completed)
-        didDisconnectPeripheralSubject.on(.completed)
     }
 }
 

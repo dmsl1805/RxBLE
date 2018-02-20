@@ -16,19 +16,9 @@ import CoreBluetooth
 
 extension Reactive where Base: CBPeripheral {
     
-    typealias PeripheralUpdates = (peripheral: CBPeripheral, error: Error?)
-    typealias CharacteristicUpdates = (peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)
-    typealias RSSIUpdates = (peripheral: CBPeripheral, error: Error?, RSSI: NSNumber)
-    typealias ServiceUpdates = (peripheral: CBPeripheral, error: Error?, service: CBService)
-    typealias DescriptorUpdates = (peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)
-
-    var delegate: DelegateProxy {
-        return RxCBPeripheralDelegateProxy.proxyForObject(base)
-    }
+    var delegate: DelegateProxy<CBPeripheral, CBPeripheralDelegate> { return RxCBPeripheralDelegateProxy.proxy(for: base) }
     
-    var proxy: RxCBPeripheralDelegateProxy {
-        return delegate as! RxCBPeripheralDelegateProxy
-    }
+    var proxy: RxCBPeripheralDelegateProxy { return RxCBPeripheralDelegateProxy.proxy(for: base) }
     
     public var didUpdateName: Observable<CBPeripheral> {
         return proxy.didUpdateNameSubject.asObservable()
@@ -79,8 +69,12 @@ extension Reactive where Base: CBPeripheral {
     }
 }
 
-class RxCBPeripheralDelegateProxy: DelegateProxy, DelegateProxyType, CBPeripheralDelegate {
-    
+extension CBPeripheral: HasDelegate {
+    public typealias Delegate = CBPeripheralDelegate
+}
+
+class RxCBPeripheralDelegateProxy: DelegateProxy<CBPeripheral, CBPeripheralDelegate>, DelegateProxyType, CBPeripheralDelegate {
+
     internal lazy var didUpdateNameSubject = PublishSubject<CBPeripheral>()
     internal lazy var didModifyServicesSubject = PublishSubject<(peripheral: CBPeripheral, invalidatedServices: [CBService])>()
     internal lazy var didReadRSSISubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, RSSI: NSNumber)>()
@@ -94,6 +88,10 @@ class RxCBPeripheralDelegateProxy: DelegateProxy, DelegateProxyType, CBPeriphera
     internal lazy var didUpdateValueForDescriptorSubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)>()
     internal lazy var didWriteValueForDescriptorSubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)>()
 
+    init(_ peripheral: CBPeripheral) {
+        super.init(parentObject: peripheral, delegateProxy: RxCBPeripheralDelegateProxy.self)
+    }
+    
     deinit {
         didUpdateNameSubject.on(.completed)
         didModifyServicesSubject.on(.completed)
@@ -111,18 +109,8 @@ class RxCBPeripheralDelegateProxy: DelegateProxy, DelegateProxyType, CBPeriphera
     
     //MARK: DelegateProxyType
     
-    class func currentDelegateFor(_ object: AnyObject) -> AnyObject? {
-        let peripheral = object as! CBPeripheral
-        return peripheral.delegate
-    }
-    
-    class func setCurrentDelegate(_ delegate: AnyObject?, toObject object: AnyObject) {
-        let peripheral = object as! CBPeripheral
-        if let delegate = delegate {
-            peripheral.delegate = (delegate as! CBPeripheralDelegate)
-        } else {
-            peripheral.delegate = nil
-        }
+    static func registerKnownImplementations() {
+        register { RxCBPeripheralDelegateProxy($0) }
     }
     
     //MARK: CBPeripheralDelegate

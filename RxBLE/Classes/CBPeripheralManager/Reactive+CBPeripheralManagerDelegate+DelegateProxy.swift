@@ -15,12 +15,12 @@ import CoreBluetooth
 
 extension Reactive where Base: CBPeripheralManager {
     
-    var delegate: DelegateProxy {
-        return RxCBPeripheralManagerDelegateProxy.proxyForObject(base)
+    var delegate: DelegateProxy<CBPeripheralManager, CBPeripheralManagerDelegate> {
+        return RxCBPeripheralManagerDelegateProxy.proxy(for: base)
     }
     
     var proxy: RxCBPeripheralManagerDelegateProxy {
-        return delegate as! RxCBPeripheralManagerDelegateProxy
+        return RxCBPeripheralManagerDelegateProxy.proxy(for: base)
     }
     
     public var didUpdateState: Observable<CBPeripheralManager> {
@@ -60,7 +60,11 @@ extension Reactive where Base: CBPeripheralManager {
     }
 }
 
-class RxCBPeripheralManagerDelegateProxy: DelegateProxy, DelegateProxyType, CBPeripheralManagerDelegate {
+extension CBPeripheralManager: HasDelegate {
+    public typealias Delegate = CBPeripheralManagerDelegate
+}
+
+class RxCBPeripheralManagerDelegateProxy: DelegateProxy<CBPeripheralManager, CBPeripheralManagerDelegate>, DelegateProxyType, CBPeripheralManagerDelegate {
     
     internal lazy var didUpdateStateSubject = PublishSubject<CBPeripheralManager>()
     internal lazy var willRestoreStateSubject = PublishSubject<(peripheral:CBPeripheralManager, dict: [String : Any])>()
@@ -71,6 +75,10 @@ class RxCBPeripheralManagerDelegateProxy: DelegateProxy, DelegateProxyType, CBPe
     internal lazy var didReceiveReadRequestSubject = PublishSubject<(peripheral: CBPeripheralManager, request: CBATTRequest)>()
     internal lazy var didReceiveWriteRequestsSubject = PublishSubject<(peripheral: CBPeripheralManager, requests: [CBATTRequest])>()
     internal lazy var isReadyToUpdateSubscribersSubject = PublishSubject<CBPeripheralManager>()
+    
+    init(_ peripheralManager: CBPeripheralManager) {
+        super.init(parentObject: peripheralManager, delegateProxy: RxCBPeripheralManagerDelegateProxy.self)
+    }
     
     deinit {
         didUpdateStateSubject.on(.completed)
@@ -86,18 +94,8 @@ class RxCBPeripheralManagerDelegateProxy: DelegateProxy, DelegateProxyType, CBPe
     
     //MARK: DelegateProxyType
 
-    class func currentDelegateFor(_ object: AnyObject) -> AnyObject? {
-        let peripheralManager: CBPeripheralManager = object as! CBPeripheralManager
-        return peripheralManager.delegate
-    }
-    
-    class func setCurrentDelegate(_ delegate: AnyObject?, toObject object: AnyObject) {
-        let peripheralManager: CBPeripheralManager = object as! CBPeripheralManager
-        if let delegate = delegate {
-            peripheralManager.delegate = (delegate as! CBPeripheralManagerDelegate)
-        } else {
-            peripheralManager.delegate = nil
-        }
+    static func registerKnownImplementations() {
+        register { RxCBPeripheralManagerDelegateProxy($0) }
     }
     
     //MARK: CBPeripheralManagerDelegate

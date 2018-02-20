@@ -124,7 +124,7 @@ extension Reactive where Base: CBPeripheral {
                 .filter { $0.service.uuid == service.uuid }
                 .subscribe(onNext: {
                 guard let error = $0.error else {
-                    observer.onNext(peripheral: $0.peripheral, service: $0.service)
+                    observer.onNext((peripheral: $0.peripheral, service: $0.service))
                     observer.onCompleted()
                     
                     return
@@ -174,7 +174,7 @@ extension Reactive where Base: CBPeripheral {
                 .filter { $0.service.uuid == service.uuid }
                 .subscribe(onNext: {
                 guard let error = $0.error else {
-                    observer.onNext(peripheral: $0.peripheral, service: $0.service)
+                    observer.onNext((peripheral: $0.peripheral, service: $0.service))
                     observer.onCompleted()
                     
                     return
