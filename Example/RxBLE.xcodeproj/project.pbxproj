@@ -14,6 +14,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		920E823D203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920E823C203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift */; };
 		E98BD9D17EED16891F142F25 /* Pods_RxBLE_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3042CF16735953FB39AA85C3 /* Pods_RxBLE_Tests.framework */; };
 		FC0DB1B41FEE44E500830213 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0DB1B61FEE44E500830213 /* RxCocoa.framework */; };
 		FC0DB1B51FEE44E500830213 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0DB1B71FEE44E500830213 /* RxSwift.framework */; };
@@ -46,6 +47,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		8C086EB87A4C828FE6421689 /* Pods-RxBLE_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBLE_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxBLE_Example/Pods-RxBLE_Example.release.xcconfig"; sourceTree = "<group>"; };
+		920E823C203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManagerSpec.swift; sourceTree = "<group>"; };
 		9708E4BA606DB6B17AAB098D /* Pods-RxBLE_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBLE_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxBLE_Example/Pods-RxBLE_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		98136AF7901D6D42FD6FABD0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D29417804D89B054BFD0D13D /* RxBLE.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RxBLE.podspec; path = ../RxBLE.podspec; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				920E823B203DB1CA00B9AAE7 /* CBCentralManager */,
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -144,6 +147,14 @@
 				FC7D3F821F78DDEA00176C46 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		920E823B203DB1CA00B9AAE7 /* CBCentralManager */ = {
+			isa = PBXGroup;
+			children = (
+				920E823C203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift */,
+			);
+			name = CBCentralManager;
 			sourceTree = "<group>";
 		};
 		AB6BDA20FACA58BFE7998EAD /* Frameworks */ = {
@@ -399,6 +410,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				920E823D203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
