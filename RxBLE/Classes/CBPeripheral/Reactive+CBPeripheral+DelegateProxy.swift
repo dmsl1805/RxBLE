@@ -67,6 +67,15 @@ extension Reactive where Base: CBPeripheral {
     public var didWriteValueForDescriptor: Observable<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)> {
         return proxy.didWriteValueForDescriptorSubject.asObservable()
     }
+    
+    public var isReadyToSendWriteWithoutResponse: Observable<CBPeripheral> {
+        return proxy.isReadyToSendWriteWithoutResponse.asObservable()
+    }
+    
+    @available(iOS 11.0, *)
+    public var didOpenL2CAPChannel: Observable<(peripheral: CBPeripheral, channel: CBL2CAPChannel?, error: Error?)> {
+        return proxy.didOpenL2CAPChannel.asObservable()
+    }
 }
 
 extension CBPeripheral: HasDelegate {
@@ -87,6 +96,9 @@ class RxCBPeripheralDelegateProxy: DelegateProxy<CBPeripheral, CBPeripheralDeleg
     internal lazy var didDiscoverDescriptorsSubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, characteristic: CBCharacteristic)>()
     internal lazy var didUpdateValueForDescriptorSubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)>()
     internal lazy var didWriteValueForDescriptorSubject = PublishSubject<(peripheral: CBPeripheral, error: Error?, descriptor: CBDescriptor)>()
+    internal lazy var isReadyToSendWriteWithoutResponse = PublishSubject<CBPeripheral>()
+    @available(iOS 11.0, *)
+    internal lazy var didOpenL2CAPChannel = PublishSubject<(peripheral: CBPeripheral, channel: CBL2CAPChannel?, error: Error?)>()
 
     init(_ peripheral: CBPeripheral) {
         super.init(parentObject: peripheral, delegateProxy: RxCBPeripheralDelegateProxy.self)
@@ -105,6 +117,10 @@ class RxCBPeripheralDelegateProxy: DelegateProxy<CBPeripheral, CBPeripheralDeleg
         didDiscoverDescriptorsSubject.on(.completed)
         didUpdateValueForDescriptorSubject.on(.completed)
         didWriteValueForDescriptorSubject.on(.completed)
+        isReadyToSendWriteWithoutResponse.on(.completed)
+        if #available(iOS 11.0, *) {
+            didOpenL2CAPChannel.on(.completed)
+        } 
     }
     
     //MARK: DelegateProxyType
@@ -173,5 +189,16 @@ class RxCBPeripheralDelegateProxy: DelegateProxy<CBPeripheral, CBPeripheralDeleg
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
         _forwardToDelegate?.peripheral?(peripheral, didWriteValueFor: descriptor, error: error)
         didWriteValueForDescriptorSubject.onNext((peripheral: peripheral, error: error, descriptor: descriptor))
+    }
+    
+    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+        _forwardToDelegate?.peripheralIsReady(toSendWriteWithoutResponse: peripheral)
+        isReadyToSendWriteWithoutResponse.onNext(peripheral)
+    }
+    
+    @available(iOS 11.0, *)
+    func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
+        _forwardToDelegate?.peripheral(peripheral, didOpen: channel, error: error)
+        didOpenL2CAPChannel.onNext((peripheral: peripheral, channel: channel, error: error))
     }
 }

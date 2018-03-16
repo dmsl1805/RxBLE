@@ -13,8 +13,10 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
-		920E823D203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920E823C203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift */; };
+		920E823D203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */; };
+		92EE123B205C0DD80002F234 /* CBPeripheralDelegateProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE1239205C0DC70002F234 /* CBPeripheralDelegateProxySpec.swift */; };
+		92EE1241205C0EF80002F234 /* CBPeripheralMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE123F205C0E480002F234 /* CBPeripheralMock.swift */; };
+		92EE1242205C0EFD0002F234 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE123C205C0DE60002F234 /* Event.swift */; };
 		E98BD9D17EED16891F142F25 /* Pods_RxBLE_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3042CF16735953FB39AA85C3 /* Pods_RxBLE_Tests.framework */; };
 		FC0DB1B41FEE44E500830213 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0DB1B61FEE44E500830213 /* RxCocoa.framework */; };
 		FC0DB1B51FEE44E500830213 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0DB1B71FEE44E500830213 /* RxSwift.framework */; };
@@ -45,9 +47,11 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* RxBLE_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxBLE_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		8C086EB87A4C828FE6421689 /* Pods-RxBLE_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBLE_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxBLE_Example/Pods-RxBLE_Example.release.xcconfig"; sourceTree = "<group>"; };
-		920E823C203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManagerSpec.swift; sourceTree = "<group>"; };
+		920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManagerDelegateProxySpec.swift; sourceTree = "<group>"; };
+		92EE1239205C0DC70002F234 /* CBPeripheralDelegateProxySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralDelegateProxySpec.swift; sourceTree = "<group>"; };
+		92EE123C205C0DE60002F234 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		92EE123F205C0E480002F234 /* CBPeripheralMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralMock.swift; sourceTree = "<group>"; };
 		9708E4BA606DB6B17AAB098D /* Pods-RxBLE_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBLE_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxBLE_Example/Pods-RxBLE_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		98136AF7901D6D42FD6FABD0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D29417804D89B054BFD0D13D /* RxBLE.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RxBLE.podspec; path = ../RxBLE.podspec; sourceTree = "<group>"; };
@@ -124,8 +128,10 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				92EE123C205C0DE60002F234 /* Event.swift */,
+				92EE123E205C0E390002F234 /* Mock */,
+				92EE1238205C0DA60002F234 /* CBPeripheral */,
 				920E823B203DB1CA00B9AAE7 /* CBCentralManager */,
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -152,9 +158,25 @@
 		920E823B203DB1CA00B9AAE7 /* CBCentralManager */ = {
 			isa = PBXGroup;
 			children = (
-				920E823C203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift */,
+				920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */,
 			);
 			name = CBCentralManager;
+			sourceTree = "<group>";
+		};
+		92EE1238205C0DA60002F234 /* CBPeripheral */ = {
+			isa = PBXGroup;
+			children = (
+				92EE1239205C0DC70002F234 /* CBPeripheralDelegateProxySpec.swift */,
+			);
+			name = CBPeripheral;
+			sourceTree = "<group>";
+		};
+		92EE123E205C0E390002F234 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				92EE123F205C0E480002F234 /* CBPeripheralMock.swift */,
+			);
+			name = Mock;
 			sourceTree = "<group>";
 		};
 		AB6BDA20FACA58BFE7998EAD /* Frameworks */ = {
@@ -332,11 +354,17 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RxBLE_Tests/Pods-RxBLE_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxBLE/RxBLE.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBLE.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 			);
@@ -409,8 +437,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
-				920E823D203DB1DB00B9AAE7 /* CBCentralManagerSpec.swift in Sources */,
+				92EE1242205C0EFD0002F234 /* Event.swift in Sources */,
+				920E823D203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift in Sources */,
+				92EE123B205C0DD80002F234 /* CBPeripheralDelegateProxySpec.swift in Sources */,
+				92EE1241205C0EF80002F234 /* CBPeripheralMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +595,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
+					"$(inherited)/**",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -575,7 +605,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -591,7 +621,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

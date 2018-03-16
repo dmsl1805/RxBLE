@@ -3,10 +3,13 @@ use_frameworks!
 target 'RxBLE_Example' do
   pod 'RxBLE', :path => '../'
 
-  target 'RxBLE_Tests' do
+target 'RxBLE_Tests' do
     inherit! :search_paths
+    
+    pod 'RxBLE', :path => '../'
 
     pod 'Quick'
-  pod 'Nimble'
+    pod 'Nimble'
+    
   end
 end
