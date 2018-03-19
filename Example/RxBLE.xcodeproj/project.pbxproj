@@ -14,6 +14,9 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		920E823D203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */; };
+		927C38D8205FCD01002821B7 /* CBPeripheralManagerDelegateProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927C38D6205FCB50002821B7 /* CBPeripheralManagerDelegateProxySpec.swift */; };
+		927C38DB205FF241002821B7 /* CBCentalMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927C38D9205FF1ED002821B7 /* CBCentalMock.swift */; };
+		927C38DE205FF393002821B7 /* CBATTRequestMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927C38DC205FF36B002821B7 /* CBATTRequestMock.swift */; };
 		92EE123B205C0DD80002F234 /* CBPeripheralDelegateProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE1239205C0DC70002F234 /* CBPeripheralDelegateProxySpec.swift */; };
 		92EE1241205C0EF80002F234 /* CBPeripheralMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE123F205C0E480002F234 /* CBPeripheralMock.swift */; };
 		92EE1242205C0EFD0002F234 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE123C205C0DE60002F234 /* Event.swift */; };
@@ -49,6 +52,9 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C086EB87A4C828FE6421689 /* Pods-RxBLE_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBLE_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxBLE_Example/Pods-RxBLE_Example.release.xcconfig"; sourceTree = "<group>"; };
 		920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManagerDelegateProxySpec.swift; sourceTree = "<group>"; };
+		927C38D6205FCB50002821B7 /* CBPeripheralManagerDelegateProxySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralManagerDelegateProxySpec.swift; sourceTree = "<group>"; };
+		927C38D9205FF1ED002821B7 /* CBCentalMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentalMock.swift; sourceTree = "<group>"; };
+		927C38DC205FF36B002821B7 /* CBATTRequestMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBATTRequestMock.swift; sourceTree = "<group>"; };
 		92EE1239205C0DC70002F234 /* CBPeripheralDelegateProxySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralDelegateProxySpec.swift; sourceTree = "<group>"; };
 		92EE123C205C0DE60002F234 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		92EE123F205C0E480002F234 /* CBPeripheralMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralMock.swift; sourceTree = "<group>"; };
@@ -132,6 +138,7 @@
 				92EE123E205C0E390002F234 /* Mock */,
 				92EE1238205C0DA60002F234 /* CBPeripheral */,
 				920E823B203DB1CA00B9AAE7 /* CBCentralManager */,
+				927C38D5205FCB2D002821B7 /* CBPeripheralManager */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -163,6 +170,14 @@
 			name = CBCentralManager;
 			sourceTree = "<group>";
 		};
+		927C38D5205FCB2D002821B7 /* CBPeripheralManager */ = {
+			isa = PBXGroup;
+			children = (
+				927C38D6205FCB50002821B7 /* CBPeripheralManagerDelegateProxySpec.swift */,
+			);
+			name = CBPeripheralManager;
+			sourceTree = "<group>";
+		};
 		92EE1238205C0DA60002F234 /* CBPeripheral */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				92EE123F205C0E480002F234 /* CBPeripheralMock.swift */,
+				927C38D9205FF1ED002821B7 /* CBCentalMock.swift */,
+				927C38DC205FF36B002821B7 /* CBATTRequestMock.swift */,
 			);
 			name = Mock;
 			sourceTree = "<group>";
@@ -438,9 +455,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				92EE1242205C0EFD0002F234 /* Event.swift in Sources */,
+				927C38D8205FCD01002821B7 /* CBPeripheralManagerDelegateProxySpec.swift in Sources */,
 				920E823D203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift in Sources */,
 				92EE123B205C0DD80002F234 /* CBPeripheralDelegateProxySpec.swift in Sources */,
+				927C38DE205FF393002821B7 /* CBATTRequestMock.swift in Sources */,
 				92EE1241205C0EF80002F234 /* CBPeripheralMock.swift in Sources */,
+				927C38DB205FF241002821B7 /* CBCentalMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

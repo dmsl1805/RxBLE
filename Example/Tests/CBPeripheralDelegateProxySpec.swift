@@ -91,18 +91,15 @@ class CBPeripheralDelegateProxySpec: QuickSpec {
             var peripheral = PeripheralMock.create()
             var delegate = PeripheralDelegateCounter()
             var observableEventsCount = 0
-            var serviceStub = CBMutableService(type: CBUUID(), primary: false)
-            var characteristicStub = CBMutableCharacteristic(type: CBUUID(), properties: .read, value: nil, permissions: .readable)
-            var descriptorStub = CBMutableDescriptor(type: CBUUID(string: "68753A44-4D6F-1226-9C60-0050E4C00067"), value: NSData())
+            var serviceStub: CBService { return CBMutableService(type: CBUUID(), primary: false) }
+            var characteristicStub: CBCharacteristic { return CBMutableCharacteristic(type: CBUUID(), properties: .read, value: nil, permissions: .readable) }
+            var descriptorStub: CBDescriptor { return CBMutableDescriptor(type: CBUUID(string: "68753A44-4D6F-1226-9C60-0050E4C00067"), value: NSData()) }
             
             beforeEach {
                 peripheral = PeripheralMock.create()
                 delegate = PeripheralDelegateCounter()
                 peripheral.delegate = delegate
                 observableEventsCount = 0
-                serviceStub = CBMutableService(type: CBUUID(), primary: false)
-                characteristicStub = CBMutableCharacteristic(type: CBUUID(), properties: .read, value: nil, permissions: .readable)
-                descriptorStub = CBMutableDescriptor(type: CBUUID(string: "68753A44-4D6F-1226-9C60-0050E4C00067"), value: NSData())
             }
             
             afterEach {
