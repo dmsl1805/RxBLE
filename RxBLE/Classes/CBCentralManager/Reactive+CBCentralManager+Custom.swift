@@ -28,7 +28,11 @@ extension Reactive where Base: CBCentralManager {
     public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String : Any]? = nil) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber)> {
         
         base.scanForPeripherals(withServices: serviceUUIDs, options: options)
+        
         return base.rx.didDiscover
+            .filter { central, peripheral, advertisementData, rssi -> Bool in
+            central == self.base
+        }
     }
     
     public func connect(_ peripheral: CBPeripheral, options: [String : Any]? = nil) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral)> {

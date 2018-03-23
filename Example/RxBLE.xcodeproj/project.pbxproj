@@ -14,6 +14,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		920E823D203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */; };
+		92522EC52060201E00A90DD5 /* RxCBCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92522EC42060201E00A90DD5 /* RxCBCentralManager.swift */; };
 		927C38D8205FCD01002821B7 /* CBPeripheralManagerDelegateProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927C38D6205FCB50002821B7 /* CBPeripheralManagerDelegateProxySpec.swift */; };
 		927C38DB205FF241002821B7 /* CBCentalMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927C38D9205FF1ED002821B7 /* CBCentalMock.swift */; };
 		927C38DE205FF393002821B7 /* CBATTRequestMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927C38DC205FF36B002821B7 /* CBATTRequestMock.swift */; };
@@ -52,6 +53,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C086EB87A4C828FE6421689 /* Pods-RxBLE_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBLE_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxBLE_Example/Pods-RxBLE_Example.release.xcconfig"; sourceTree = "<group>"; };
 		920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManagerDelegateProxySpec.swift; sourceTree = "<group>"; };
+		92522EC42060201E00A90DD5 /* RxCBCentralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxCBCentralManager.swift; sourceTree = "<group>"; };
 		927C38D6205FCB50002821B7 /* CBPeripheralManagerDelegateProxySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralManagerDelegateProxySpec.swift; sourceTree = "<group>"; };
 		927C38D9205FF1ED002821B7 /* CBCentalMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentalMock.swift; sourceTree = "<group>"; };
 		927C38DC205FF36B002821B7 /* CBATTRequestMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBATTRequestMock.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				920E823C203DB1DB00B9AAE7 /* CBCentralManagerDelegateProxySpec.swift */,
+				92522EC42060201E00A90DD5 /* RxCBCentralManager.swift */,
 			);
 			name = CBCentralManager;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				92EE123B205C0DD80002F234 /* CBPeripheralDelegateProxySpec.swift in Sources */,
 				927C38DE205FF393002821B7 /* CBATTRequestMock.swift in Sources */,
 				92EE1241205C0EF80002F234 /* CBPeripheralMock.swift in Sources */,
+				92522EC52060201E00A90DD5 /* RxCBCentralManager.swift in Sources */,
 				927C38DB205FF241002821B7 /* CBCentalMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
