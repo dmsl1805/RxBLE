@@ -13,6 +13,14 @@ import CoreBluetooth
     import RxCocoa
 #endif
 
+extension Array where Element: Equatable {
+    func containsAllElementsFrom(_ other: Array<Element>) -> Bool {
+        return other
+            .map(contains)
+            .reduce(true) { $0 && $1 }
+    }
+}
+
 extension Reactive where Base: CBCentralManager {
     
     public var state: Observable<CBManagerState> {
@@ -83,24 +91,30 @@ extension Reactive where Base: CBCentralManager {
     public func retrieveOrScanPeripherals(_ identifiers: [UUID], withServices services: [CBUUID]?, options: [String : Any]? = nil) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral)>  {
         
         var retrievedPeripherals = base.retrievePeripherals(withIdentifiers: identifiers)
+        var retrievedIdentifiers = retrievedPeripherals.map { $0.identifier }
+        
+        guard !retrievedIdentifiers.containsAllElementsFrom(identifiers) else {
+            return observableFrom(peripherals: retrievedPeripherals)
+        }
         
         if let services = services {
             let connectedPeripherals = base.retrieveConnectedPeripherals(withServices: services)
             retrievedPeripherals.append(contentsOf: connectedPeripherals)
         }
         
-        let allPeripheralsAreAlreadyRetrieved = retrievedPeripherals
-            .flatMap { identifiers.contains($0.identifier) }
-            .reduce(true) { $0 && $1 }
+        retrievedIdentifiers = retrievedPeripherals.map { $0.identifier }
         
-        guard !allPeripheralsAreAlreadyRetrieved else {
-            let observableObects = retrievedPeripherals.map { peripheral -> (central: CBCentralManager, peripheral: CBPeripheral) in
-                (central: base, peripheral: peripheral)
-            }
-            return Observable<(central: CBCentralManager, peripheral: CBPeripheral)>.from(observableObects)
+        guard !retrievedIdentifiers.containsAllElementsFrom(identifiers) else {
+            return observableFrom(peripherals: retrievedPeripherals)
         }
         
         return scanForPeripherals(withServices: services, options: options)
             .map { (central: $0.central, peripheral: $0.peripheral) }
+            .filter { identifiers.contains($0.peripheral.identifier) }
+    }
+    
+    private func observableFrom(peripherals: [CBPeripheral]) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral)> {
+        let observableObects = peripherals.map { (central: base, peripheral: $0) } as [(central: CBCentralManager, peripheral: CBPeripheral)]
+        return Observable<(central: CBCentralManager, peripheral: CBPeripheral)>.from(observableObects)
     }
 }
