@@ -113,34 +113,6 @@ class CBCentralManagerDelegateProxySpec: QuickSpec {
                 expect(observableEventsCount).to(equal(1))
             }
         }
-
-        
-        //TODO: Test onCompleted
-//        describe("Test deinit") {
-//            class Wrapper<T> {
-//                var value: T
-//                init(value: T) { self.value = value }
-//            }
-//            var completed = Wrapper(value: false)
-//
-////            beforeEach {
-////                completed = false
-////            }
-//
-//            afterEach {
-//                expect(completed.value).to(beTrue())
-//            }
-//
-//            it("Shold complete didUpdateState") {
-//                func localPool() {
-//                    let central = CBCentralManager()
-//                    let disposable = central.rx.didUpdateState.subscribe(onCompleted: { completed.value = true })
-//                    disposable.dispose()
-//                }
-//
-//                localPool()
-//            }
-//        }
     }
 }
 

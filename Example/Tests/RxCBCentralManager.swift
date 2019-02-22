@@ -8,6 +8,7 @@
 
 import CoreBluetooth
 import RxBLE
+import RxSwift
 import Quick
 import Nimble
 
@@ -35,6 +36,10 @@ class RxCBCentralManager: QuickSpec {
             expect(state).to(equal(central.state))
             
             state = nil
+            central.delegate?.centralManagerDidUpdateState(central)
+            expect(state).to(equal(central.state))
+            
+            state = .poweredOn
             central.delegate?.centralManagerDidUpdateState(central)
             expect(state).to(equal(central.state))
         }
@@ -156,6 +161,24 @@ class RxCBCentralManager: QuickSpec {
                 }, onError: { error in
                     fatalError("shold not be called")
                 })
+                
+                let peripheral = PeripheralMock.create()
+                (peripheral as? PeripheralMock)?.peripheralIdentifier = UUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E55")
+                central.delegate?.centralManager?(central, didConnect: peripheral)
+                central.delegate?.centralManager?(central, didFailToConnect: peripheral, error: ConectionError.error)
+            }
+            
+            it("shold not be called timeout") {
+                waitUntil(timeout: <#T##TimeInterval#>, action: <#T##(@escaping () -> Void) -> Void#>)
+                _ = central.rx
+                    .connect(PeripheralMock.create(), timeout: (dueTime: 3.0, scheduler: MainScheduler()))
+                    .subscribe(onNext: { _ in
+                        fatalError("shold not be called")
+                    }, onError: { error in
+                        fatalError("shold not be called")
+                    }, onCompleted: {
+                        fatalError("shold not be called")
+                    })
                 
                 let peripheral = PeripheralMock.create()
                 (peripheral as? PeripheralMock)?.peripheralIdentifier = UUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E55")

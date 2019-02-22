@@ -73,7 +73,7 @@ class ViewController: UIViewController {
                 print($0)
             })
             
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func saveAndConnect(_ central: CBCentralManager, _ peripheral: CBPeripheral) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral)> {

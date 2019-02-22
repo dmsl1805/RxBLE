@@ -1,3 +1,4 @@
+
 //
 //  File.swift
 //  BLETest
@@ -23,30 +24,25 @@ extension Array where Element: Equatable {
 
 extension Reactive where Base: CBCentralManager {
     
+    public typealias ScanInfo = (central: CBCentralManager, peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber)
+    public typealias CentralPeripheral = (central: CBCentralManager, peripheral: CBPeripheral)
+
     public var state: Observable<CBManagerState> {
-        return Observable.create { observer in
-            observer.onNext(self.base.state)
-            let didUpdateState = self.base.rx.didUpdateState.subscribe(onNext: { central in
-                observer.onNext(central.state)
-            })
-            return Disposables.create([didUpdateState])
-        }
+        let subject = BehaviorSubject(value: base.state)
+        _ = base.rx.didUpdateState.map { $0.state }.subscribe(subject)
+        return subject
     }
     
-    public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String : Any]? = nil) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber)> {
-        
+    public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?,
+                                   options: [String : Any]? = nil) -> Observable<ScanInfo> {
         base.scanForPeripherals(withServices: serviceUUIDs, options: options)
-        
         return base.rx.didDiscover
-            .filter { central, peripheral, advertisementData, rssi -> Bool in
-            central == self.base
-        }
     }
     
-    public func connect(_ peripheral: CBPeripheral, options: [String : Any]? = nil) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral)> {
-        
-        return Observable<(central: CBCentralManager, peripheral: CBPeripheral)>.create { observer in
-    
+    public func connect(_ peripheral: CBPeripheral,
+                        options: [String : Any]? = nil,
+                        timeout: (dueTime: RxTimeInterval, scheduler: SchedulerType)? = nil) -> Observable<CentralPeripheral> {
+        let observable = Observable<(central: CBCentralManager, peripheral: CBPeripheral)>.create { observer in
             let didConnect = self.didConnect
                 .filter { $0.peripheral.identifier == peripheral.identifier }
                 .subscribe (onNext: {
@@ -64,11 +60,17 @@ extension Reactive where Base: CBCentralManager {
                 })
             
             self.base.connect(peripheral, options: options)
-            return Disposables.create(didConnect, didFail)
+            return Disposables.create()
         }
+          
+        guard let timeout = timeout else {
+            return observable
+        }
+        
+        return observable.timeout(timeout.dueTime, scheduler: timeout.scheduler)
     }
     
-    public func cancelPeripheralConnection(_ peripheral : CBPeripheral) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral)> {
+    public func cancelPeripheralConnection(_ peripheral : CBPeripheral) -> Observable<CentralPeripheral> {
         return Observable<(central: CBCentralManager, peripheral: CBPeripheral)>.create { observer in
             let didDisconnect = self.didDisconnectPeripheral
                 .filter { $0.peripheral.identifier == peripheral.identifier }
@@ -88,7 +90,9 @@ extension Reactive where Base: CBCentralManager {
         }
     }
     
-    public func retrieveOrScanPeripherals(_ identifiers: [UUID], withServices services: [CBUUID]?, options: [String : Any]? = nil) -> Observable<(central: CBCentralManager, peripheral: CBPeripheral)>  {
+    public func retrieveOrScanPeripherals(_ identifiers: [UUID],
+                                          withServices services: [CBUUID]? = nil,
+                                          options: [String : Any]? = nil) -> Observable<CentralPeripheral>  {
         
         var retrievedPeripherals = base.retrievePeripherals(withIdentifiers: identifiers)
         var retrievedIdentifiers = retrievedPeripherals.map { $0.identifier }

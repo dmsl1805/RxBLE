@@ -66,6 +66,7 @@ class RxCBCentralManagerDelegateProxy : DelegateProxy<CBCentralManager, CBCentra
     
     deinit {
         didUpdateStateSubject.on(.completed)
+        willRestoreStateSubject.on(.completed)
         didDiscoverSubject.on(.completed)
         didConnectSubject.on(.completed)
         didFailToConnectSubject.on(.completed)
